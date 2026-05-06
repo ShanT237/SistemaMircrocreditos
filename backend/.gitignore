@@ -6,6 +6,8 @@ target/
 .env
 target/
 *.class
+.idea/
+*.iml
 
 ### STS ###
 .apt_generated
@@ -34,3 +36,4 @@ build/
 
 ### VS Code ###
 .vscode/
+application.properties
