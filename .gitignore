@@ -1,4 +1,2 @@
 .idea/
 *.iml
-backend/application.properties
-frontend/node_modules/
