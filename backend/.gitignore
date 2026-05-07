@@ -8,6 +8,7 @@ HELP.md
 # ── Credenciales y configuración local ─
 application.properties
 .env
+sa
 
 # ── Clases compiladas ───────────────────
 *.class
