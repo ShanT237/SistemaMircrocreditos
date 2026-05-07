@@ -1,0 +1,21 @@
+<div class="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-label">MENÚ PRINCIPAL</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    @for (item of menu; track item.route) {
+      <a class="nav-item"
+         [routerLink]="item.route"
+         routerLinkActive="active">
+        <mat-icon class="nav-icon">{{ item.icon }}</mat-icon>
+        <span class="nav-label">{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    <mat-icon>info_outline</mat-icon>
+    <span>v1.0.0</span>
+  </div>
+</div>

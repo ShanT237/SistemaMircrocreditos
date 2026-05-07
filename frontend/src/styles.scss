@@ -1,0 +1,57 @@
+@use '@angular/material' as mat;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  background-color: #f0f4f8;
+  color: #1a202c;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f0f4f8; }
+::-webkit-scrollbar-thumb { background: #0d9488; border-radius: 3px; }
+
+/* Tablas premium */
+.mat-mdc-table {
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04) !important;
+}
+
+.mat-mdc-header-row {
+  background-color: #f8fafc !important;
+}
+
+.mat-mdc-header-cell {
+  color: #64748b !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mat-mdc-row:hover {
+  background-color: #f0fdfa !important;
+  transition: background 0.15s ease;
+}
+
+/* Cards */
+.page-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+}
+
+/* Botones */
+.mat-mdc-raised-button.mat-primary {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em;
+}

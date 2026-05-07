@@ -1,0 +1,67 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div class="dialog-icon">
+      <mat-icon>{{ esEdicion ? 'edit' : 'person_add' }}</mat-icon>
+    </div>
+    <div>
+      <h2>{{ esEdicion ? 'Editar' : 'Nuevo' }} Operador</h2>
+      <p>{{ esEdicion ? 'Modifica los datos del operador' : 'Completa los datos del nuevo operador' }}</p>
+    </div>
+  </div>
+
+  <form [formGroup]="form" class="dialog-form">
+
+    <div class="field-group">
+      <label>Nombre completo</label>
+      <input formControlName="nombre" placeholder="Ej: Juan Pérez"
+             [class.invalid]="form.get('nombre')?.invalid && form.get('nombre')?.touched" />
+      @if (form.get('nombre')?.invalid && form.get('nombre')?.touched) {
+        <span class="field-error">El nombre es requerido</span>
+      }
+    </div>
+
+    <div class="field-group">
+      <label>Correo electrónico</label>
+      <input formControlName="email" type="email" placeholder="correo@empresa.com"
+             [class.invalid]="form.get('email')?.invalid && form.get('email')?.touched" />
+      @if (form.get('email')?.invalid && form.get('email')?.touched) {
+        <span class="field-error">Ingresa un email válido</span>
+      }
+    </div>
+
+    <div class="field-group">
+      <label>Rol</label>
+      <select formControlName="rol"
+              [class.invalid]="form.get('rol')?.invalid && form.get('rol')?.touched">
+        <option value="">Seleccionar rol...</option>
+        <option value="VALORADOR">Valorador</option>
+        <option value="APROBADOR">Aprobador</option>
+        <option value="ANALISTA">Analista</option>
+      </select>
+      @if (form.get('rol')?.invalid && form.get('rol')?.touched) {
+        <span class="field-error">Selecciona un rol</span>
+      }
+    </div>
+
+    <div class="field-group">
+      <label>Estado</label>
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <span class="toggle-status" [class.activo]="form.get('activo')?.value">
+            {{ form.get('activo')?.value ? '● Activo' : '● Inactivo' }}
+          </span>
+          <span class="toggle-hint">El operador {{ form.get('activo')?.value ? 'puede' : 'no puede' }} acceder al sistema</span>
+        </div>
+        <mat-slide-toggle formControlName="activo" color="primary" />
+      </div>
+    </div>
+
+  </form>
+
+  <div class="dialog-footer">
+    <button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+    <button class="btn-save" (click)="guardar()" [disabled]="form.invalid">
+      {{ esEdicion ? 'Guardar cambios' : 'Crear operador' }}
+    </button>
+  </div>
+</div>

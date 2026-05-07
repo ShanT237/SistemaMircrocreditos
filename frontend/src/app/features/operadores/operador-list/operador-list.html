@@ -1,0 +1,86 @@
+<div class="page-card">
+  <div class="header">
+    <div>
+      <h2 class="page-title">Operadores</h2>
+      <p class="page-subtitle">Gestión de usuarios del sistema</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="abrirFormulario()">
+      <mat-icon>add</mat-icon> Nuevo Operador
+    </button>
+  </div>
+
+  <!-- Loading -->
+  @if (cargando) {
+    <div class="loading">
+      <mat-spinner diameter="40" />
+      <p>Cargando operadores...</p>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (error) {
+    <div class="error-box">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ error }}</span>
+      <button mat-button (click)="cargar()">Reintentar</button>
+    </div>
+  }
+
+  <!-- Tabla -->
+  @if (!cargando && !error) {
+    <table mat-table [dataSource]="operadores">
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let o">
+          <div class="user-cell">
+            <div class="user-avatar">{{ o.nombre.charAt(0) }}</div>
+            <span>{{ o.nombre }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let o">{{ o.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="rol">
+        <th mat-header-cell *matHeaderCellDef>Rol</th>
+        <td mat-cell *matCellDef="let o">
+          <span class="badge badge-rol">{{ o.rol }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="activo">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let o">
+          <span class="badge" [class.badge-activo]="o.activo" [class.badge-inactivo]="!o.activo">
+            {{ o.activo ? 'Activo' : 'Inactivo' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let o">
+          <button mat-icon-button (click)="abrirFormulario(o)" class="btn-edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="eliminar(o.id!)" class="btn-delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+    </table>
+
+    @if (operadores.length === 0) {
+      <div class="empty">
+        <mat-icon>manage_accounts</mat-icon>
+        <p>No hay operadores registrados</p>
+      </div>
+    }
+  }
+</div>
