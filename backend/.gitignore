@@ -6,8 +6,8 @@ target/
 HELP.md
 
 # ── Credenciales y configuración local ─
-.env
 application.properties
+.env
 
 # ── Clases compiladas ───────────────────
 *.class
