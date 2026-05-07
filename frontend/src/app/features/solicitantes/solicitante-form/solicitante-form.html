@@ -1,1 +1,80 @@
-<p>solicitante-form works!</p>
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div class="dialog-icon">
+      <mat-icon>{{ esEdicion ? 'edit' : 'person_add' }}</mat-icon>
+    </div>
+    <div>
+      <h2>{{ esEdicion ? 'Editar' : 'Nuevo' }} Solicitante</h2>
+      <p>{{ esEdicion ? 'Modifica los datos del solicitante' : 'Completa los datos del nuevo solicitante' }}</p>
+    </div>
+  </div>
+
+  <form [formGroup]="form" class="dialog-form">
+
+    <div class="form-row">
+      <div class="field-group">
+        <label>Cédula</label>
+        <input formControlName="cedula" placeholder="Ej: 1234567890"
+               [class.invalid]="form.get('cedula')?.invalid && form.get('cedula')?.touched" />
+        @if (form.get('cedula')?.invalid && form.get('cedula')?.touched) {
+          <span class="field-error">La cédula es requerida</span>
+        }
+      </div>
+
+      <div class="field-group">
+        <label>Teléfono</label>
+        <input formControlName="telefono" placeholder="Ej: 3001234567"
+               [class.invalid]="form.get('telefono')?.invalid && form.get('telefono')?.touched" />
+        @if (form.get('telefono')?.invalid && form.get('telefono')?.touched) {
+          <span class="field-error">El teléfono es requerido</span>
+        }
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Nombre completo</label>
+      <input formControlName="nombre" placeholder="Ej: María García"
+             [class.invalid]="form.get('nombre')?.invalid && form.get('nombre')?.touched" />
+      @if (form.get('nombre')?.invalid && form.get('nombre')?.touched) {
+        <span class="field-error">El nombre es requerido</span>
+      }
+    </div>
+
+    <div class="field-group">
+      <label>Correo electrónico</label>
+      <input formControlName="email" type="email" placeholder="correo@empresa.com"
+             [class.invalid]="form.get('email')?.invalid && form.get('email')?.touched" />
+      @if (form.get('email')?.invalid && form.get('email')?.touched) {
+        <span class="field-error">Ingresa un email válido</span>
+      }
+    </div>
+
+    <div class="field-group">
+      <label>Ingresos mensuales (COP)</label>
+      <input formControlName="ingresos" type="number" placeholder="Ej: 2500000"
+             [class.invalid]="form.get('ingresos')?.invalid && form.get('ingresos')?.touched" />
+      @if (form.get('ingresos')?.invalid && form.get('ingresos')?.touched) {
+        <span class="field-error">Ingresa un valor válido mayor a 0</span>
+      }
+    </div>
+
+    @if (esEdicion) {
+      <div class="field-group">
+        <label>Estado</label>
+        <select formControlName="estado">
+          <option value="ACTIVO">Activo</option>
+          <option value="INACTIVO">Inactivo</option>
+          <option value="BLOQUEADO">Bloqueado</option>
+        </select>
+      </div>
+    }
+
+  </form>
+
+  <div class="dialog-footer">
+    <button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+    <button class="btn-save" (click)="guardar()" [disabled]="form.invalid">
+      {{ esEdicion ? 'Guardar cambios' : 'Crear solicitante' }}
+    </button>
+  </div>
+</div>

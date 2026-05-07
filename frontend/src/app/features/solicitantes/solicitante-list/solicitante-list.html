@@ -1,1 +1,97 @@
-<p>solicitante-list works!</p>
+<div class="page-card">
+  <div class="header">
+    <div>
+      <h2 class="page-title">Solicitantes</h2>
+      <p class="page-subtitle">Gestión de clientes y solicitantes de crédito</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="abrirFormulario()">
+      <mat-icon>person_add</mat-icon> Nuevo Solicitante
+    </button>
+  </div>
+
+  @if (cargando) {
+    <div class="loading">
+      <mat-spinner diameter="40" />
+      <p>Cargando solicitantes...</p>
+    </div>
+  }
+
+  @if (error) {
+    <div class="error-box">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ error }}</span>
+      <button mat-button (click)="cargar()">Reintentar</button>
+    </div>
+  }
+
+  @if (!cargando && !error) {
+    <table mat-table [dataSource]="solicitantes">
+
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let s">
+          <div class="user-cell">
+            <div class="user-avatar">{{ s.nombre.charAt(0) }}</div>
+            <span>{{ s.nombre }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cedula">
+        <th mat-header-cell *matHeaderCellDef>Cédula</th>
+        <td mat-cell *matCellDef="let s">{{ s.cedula }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let s">{{ s.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="telefono">
+        <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+        <td mat-cell *matCellDef="let s">{{ s.telefono }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ingresos">
+        <th mat-header-cell *matHeaderCellDef>Ingresos</th>
+        <td mat-cell *matCellDef="let s">
+          <span class="badge badge-ingresos">{{ s.ingresos | currency:'COP':'symbol':'1.0-0' }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let s">
+          <span class="badge"
+            [class.badge-activo]="s.estado === 'ACTIVO'"
+            [class.badge-inactivo]="s.estado === 'INACTIVO'"
+            [class.badge-bloqueado]="s.estado === 'BLOQUEADO'">
+            {{ s.estado }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let s">
+          <button mat-icon-button class="btn-edit" (click)="abrirFormulario(s)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="btn-delete" (click)="eliminar(s.id!)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+    </table>
+
+    @if (solicitantes.length === 0) {
+      <div class="empty">
+        <mat-icon>people</mat-icon>
+        <p>No hay solicitantes registrados</p>
+      </div>
+    }
+  }
+</div>
