@@ -1,5 +1,6 @@
 package com.microcreditos.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.microcreditos.backend.enums.EstadoDesembolso;
 import com.microcreditos.backend.enums.MetodoPago;
 import jakarta.persistence.*;
@@ -46,7 +47,8 @@ public class Desembolso {
 
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal cuotaMensual;
-
+    
+    @JsonIgnore
     @OneToMany(mappedBy = "desembolso", cascade = CascadeType.ALL)
     private List<CronogramaPago> cronograma;
 }

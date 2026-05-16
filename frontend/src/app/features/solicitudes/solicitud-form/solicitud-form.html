@@ -1,1 +1,74 @@
-<p>solicitud-form works!</p>
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div class="dialog-icon"><mat-icon>description</mat-icon></div>
+    <div>
+      <h2>Nueva Solicitud de Crédito</h2>
+      <p>Registra una solicitud para un cliente</p>
+    </div>
+  </div>
+
+  <form [formGroup]="form" class="dialog-form">
+
+    <div class="field-group">
+      <label>Solicitante</label>
+      <select formControlName="solicitanteId" [class.invalid]="form.get('solicitanteId')?.invalid && form.get('solicitanteId')?.touched">
+        <option value="">Seleccionar solicitante...</option>
+        @for (s of solicitantes; track s.id) {
+          <option [value]="s.id">{{ s.nombre }} — {{ s.cedula }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label>Producto de Crédito</label>
+      <select formControlName="productoId" [class.invalid]="form.get('productoId')?.invalid && form.get('productoId')?.touched">
+        <option value="">Seleccionar producto...</option>
+        @for (p of productos; track p.id) {
+          <option [value]="p.id">{{ p.nombre }}</option>
+        }
+      </select>
+      @if (productoSeleccionado) {
+        <div class="product-info">
+          <span>💰 {{ productoSeleccionado.montoMin | currency:'COP':'symbol':'1.0-0' }} – {{ productoSeleccionado.montoMax | currency:'COP':'symbol':'1.0-0' }}</span>
+          <span>📅 Hasta {{ productoSeleccionado.plazoMaxMeses }} meses</span>
+          <span>📈 Tasa {{ productoSeleccionado.tasaInteres * 100 | number:'1.1-2' }}% anual</span>
+        </div>
+      }
+    </div>
+
+    <div class="form-row">
+      <div class="field-group">
+        <label>Monto Solicitado (COP)</label>
+        <input formControlName="monto" type="number" placeholder="Ej: 2000000"
+               [class.invalid]="form.get('monto')?.invalid && form.get('monto')?.touched" />
+        @if (form.get('monto')?.invalid && form.get('monto')?.touched) {
+          <span class="field-error">Ingresa un monto válido</span>
+        }
+      </div>
+      <div class="field-group">
+        <label>Plazo (meses)</label>
+        <input formControlName="plazoMeses" type="number" placeholder="Ej: 12"
+               [class.invalid]="form.get('plazoMeses')?.invalid && form.get('plazoMeses')?.touched" />
+        @if (form.get('plazoMeses')?.invalid && form.get('plazoMeses')?.touched) {
+          <span class="field-error">Ingresa un plazo válido</span>
+        }
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Operador Responsable</label>
+      <select formControlName="operadorId" [class.invalid]="form.get('operadorId')?.invalid && form.get('operadorId')?.touched">
+        <option value="">Seleccionar operador...</option>
+        @for (o of operadores; track o.id) {
+          <option [value]="o.id">{{ o.nombre }} — {{ o.rol }}</option>
+        }
+      </select>
+    </div>
+
+  </form>
+
+  <div class="dialog-footer">
+    <button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+    <button class="btn-save" (click)="guardar()" [disabled]="form.invalid">Crear solicitud</button>
+  </div>
+</div>

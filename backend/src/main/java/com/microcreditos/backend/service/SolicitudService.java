@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -17,14 +19,16 @@ public class SolicitudService {
     private final ProductoCreditoRepository productoCreditoRepository;
     private final OperadorRepository operadorRepository;
 
+     @Transactional(readOnly = true) 
     public List<Solicitud> listarTodas() {
         return solicitudRepository.findAll();
     }
-
+    @Transactional(readOnly = true)  
     public List<Solicitud> listarPorSolicitante(Long solicitanteId) {
         return solicitudRepository.findBySolicitanteId(solicitanteId);
     }
 
+     @Transactional(readOnly = true) 
     public Solicitud buscarPorId(Long id) {
         return solicitudRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Solicitud no encontrada con id: " + id));

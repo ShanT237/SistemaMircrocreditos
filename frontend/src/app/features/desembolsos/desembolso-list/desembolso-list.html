@@ -1,1 +1,76 @@
-<p>desembolso-list works!</p>
+<div class="page-card">
+  <div class="header">
+    <div>
+      <h2 class="page-title">Desembolsos</h2>
+      <p class="page-subtitle">Registro y seguimiento de desembolsos</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="abrirFormulario()">
+      <mat-icon>payments</mat-icon> Nuevo Desembolso
+    </button>
+  </div>
+
+  @if (cargando) {
+    <div class="loading"><mat-spinner diameter="40" /><p>Cargando desembolsos...</p></div>
+  }
+  @if (error) {
+    <div class="error-box"><mat-icon>error_outline</mat-icon><span>{{ error }}</span><button mat-button (click)="cargar()">Reintentar</button></div>
+  }
+
+  @if (!cargando && !error) {
+    <table mat-table [dataSource]="desembolsos">
+
+      <ng-container matColumnDef="solicitante">
+        <th mat-header-cell *matHeaderCellDef>Solicitante</th>
+        <td mat-cell *matCellDef="let d">
+          <div class="user-cell">
+            <div class="user-avatar">{{ d.solicitud?.solicitante?.nombre?.charAt(0) }}</div>
+            <span>{{ d.solicitud?.solicitante?.nombre }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="monto">
+        <th mat-header-cell *matHeaderCellDef>Monto</th>
+        <td mat-cell *matCellDef="let d">
+          <span class="badge badge-money">{{ d.monto | currency:'COP':'symbol':'1.0-0' }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cuotaMensual">
+        <th mat-header-cell *matHeaderCellDef>Cuota Mensual</th>
+        <td mat-cell *matCellDef="let d">
+          <span class="badge badge-cuota">{{ d.cuotaMensual | currency:'COP':'symbol':'1.0-0' }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="metodoPago">
+        <th mat-header-cell *matHeaderCellDef>Método</th>
+        <td mat-cell *matCellDef="let d">{{ d.metodoPago }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let d">
+          <span class="badge" [ngClass]="getEstadoClass(d.estado!)">{{ d.estado }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let d">{{ d.fechaDesembolso | date:'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let d"></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+    </table>
+
+    @if (desembolsos.length === 0) {
+      <div class="empty"><mat-icon>payments</mat-icon><p>No hay desembolsos registrados</p></div>
+    }
+  }
+</div>

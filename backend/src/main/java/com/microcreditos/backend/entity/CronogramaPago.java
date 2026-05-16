@@ -1,5 +1,6 @@
 package com.microcreditos.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.microcreditos.backend.enums.EstadoCuota;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,7 +44,8 @@ public class CronogramaPago {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private EstadoCuota estado = EstadoCuota.PENDIENTE;
-
+     
+    @JsonIgnore
     @OneToOne(mappedBy = "cronogramaPago", cascade = CascadeType.ALL)
     private Pago pago;
 }

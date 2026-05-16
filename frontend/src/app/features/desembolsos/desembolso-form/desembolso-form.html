@@ -1,0 +1,52 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div class="dialog-icon"><mat-icon>payments</mat-icon></div>
+    <div>
+      <h2>Registrar Desembolso</h2>
+      <p>Solo solicitudes con estado APROBADA</p>
+    </div>
+  </div>
+
+  <form [formGroup]="form" class="dialog-form">
+    <div class="field-group">
+      <label>Solicitud Aprobada</label>
+      <select formControlName="solicitudId">
+        <option value="">Seleccionar solicitud...</option>
+        @for (s of solicitudes; track s.id) {
+          <option [value]="s.id">
+            {{ s.solicitante?.nombre }} — {{ s.monto | currency:'COP':'symbol':'1.0-0' }} / {{ s.plazoMeses }} meses
+          </option>
+        }
+      </select>
+      @if (solicitudes.length === 0) {
+        <span class="field-error">No hay solicitudes aprobadas disponibles</span>
+      }
+    </div>
+
+    <div class="field-group">
+      <label>Método de Pago</label>
+      <select formControlName="metodoPago">
+        <option value="TRANSFERENCIA">Transferencia</option>
+        <option value="EFECTIVO">Efectivo</option>
+        <option value="CHEQUE">Cheque</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label>Operador Responsable</label>
+      <select formControlName="operadorId">
+        <option value="">Seleccionar operador...</option>
+        @for (o of operadores; track o.id) {
+          <option [value]="o.id">{{ o.nombre }} — {{ o.rol }}</option>
+        }
+      </select>
+    </div>
+  </form>
+
+  <div class="dialog-footer">
+    <button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+    <button class="btn-save" (click)="guardar()" [disabled]="form.invalid || solicitudes.length === 0">
+      Registrar desembolso
+    </button>
+  </div>
+</div>

@@ -1,1 +1,80 @@
-<p>producto-form works!</p>
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div class="dialog-icon">
+      <mat-icon>{{ esEdicion ? 'edit' : 'add_card' }}</mat-icon>
+    </div>
+    <div>
+      <h2>{{ esEdicion ? 'Editar' : 'Nuevo' }} Producto</h2>
+      <p>{{ esEdicion ? 'Modifica el producto de crédito' : 'Define un nuevo producto de crédito' }}</p>
+    </div>
+  </div>
+
+  <form [formGroup]="form" class="dialog-form">
+    <div class="field-group">
+      <label>Nombre del producto</label>
+      <input formControlName="nombre" placeholder="Ej: Microcrédito Emprendedor"
+             [class.invalid]="form.get('nombre')?.invalid && form.get('nombre')?.touched" />
+      @if (form.get('nombre')?.invalid && form.get('nombre')?.touched) {
+        <span class="field-error">El nombre es requerido</span>
+      }
+    </div>
+
+    <div class="form-row">
+      <div class="field-group">
+        <label>Monto Mínimo (COP)</label>
+        <input formControlName="montoMin" type="number" placeholder="500000"
+               [class.invalid]="form.get('montoMin')?.invalid && form.get('montoMin')?.touched" />
+        @if (form.get('montoMin')?.invalid && form.get('montoMin')?.touched) {
+          <span class="field-error">Ingresa un monto válido</span>
+        }
+      </div>
+      <div class="field-group">
+        <label>Monto Máximo (COP)</label>
+        <input formControlName="montoMax" type="number" placeholder="5000000"
+               [class.invalid]="form.get('montoMax')?.invalid && form.get('montoMax')?.touched" />
+        @if (form.get('montoMax')?.invalid && form.get('montoMax')?.touched) {
+          <span class="field-error">Ingresa un monto válido</span>
+        }
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="field-group">
+        <label>Tasa de Interés Anual (%)</label>
+        <input formControlName="tasaInteres" type="number" step="0.1" placeholder="18"
+               [class.invalid]="form.get('tasaInteres')?.invalid && form.get('tasaInteres')?.touched" />
+        @if (form.get('tasaInteres')?.invalid && form.get('tasaInteres')?.touched) {
+          <span class="field-error">Ingresa una tasa válida</span>
+        }
+      </div>
+      <div class="field-group">
+        <label>Plazo Máximo (meses)</label>
+        <input formControlName="plazoMaxMeses" type="number" placeholder="24"
+               [class.invalid]="form.get('plazoMaxMeses')?.invalid && form.get('plazoMaxMeses')?.touched" />
+        @if (form.get('plazoMaxMeses')?.invalid && form.get('plazoMaxMeses')?.touched) {
+          <span class="field-error">Ingresa un plazo válido</span>
+        }
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Estado</label>
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <span class="toggle-status" [class.activo]="form.get('activo')?.value">
+            {{ form.get('activo')?.value ? '● Activo' : '● Inactivo' }}
+          </span>
+          <span class="toggle-hint">El producto {{ form.get('activo')?.value ? 'está disponible' : 'no está disponible' }}</span>
+        </div>
+        <mat-slide-toggle formControlName="activo" color="primary" />
+      </div>
+    </div>
+  </form>
+
+  <div class="dialog-footer">
+    <button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+    <button class="btn-save" (click)="guardar()" [disabled]="form.invalid">
+      {{ esEdicion ? 'Guardar cambios' : 'Crear producto' }}
+    </button>
+  </div>
+</div>
